@@ -1,0 +1,1296 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="2026年9月25日至29日广州深圳5天4晚行程">
+  <title>广州深圳 5 天 4 晚行程</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='8' fill='%23EFE56A'/%3E%3Cpath d='M12 39 C20 18 42 16 51 30 C57 40 43 52 29 46 C18 42 22 27 34 27 C43 27 45 36 38 39' fill='none' stroke='%231F3A8A' stroke-width='4' stroke-linecap='round'/%3E%3Ccircle cx='14' cy='40' r='5' fill='none' stroke='%231F3A8A' stroke-width='4'/%3E%3C/svg%3E">
+
+  <style>
+    /* ===========================================
+       PIN & PAPER THEME TOKENS
+       =========================================== */
+    :root {
+      --paper: #EFE56A;
+      --paper-2: #F5ECA0;
+      --paper-3: #E8D85A;
+      --paper-extra: #FBE6A4;
+      --cream: #F8F1D6;
+      --ink: #1F3A8A;
+      --ink-soft: #2D4FB8;
+      --ink-deep: #0E1430;
+      --red: #C2342B;
+      --stage-bg: #0E1430;
+      --slide-bg: var(--paper);
+      --font-display: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+      --font-body: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+      --font-mono: "DM Mono", "Noto Sans SC", monospace;
+      --font-script: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+      --ease-paper: cubic-bezier(.16, 1, .3, 1);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    /* ===========================================
+       FIXED 16:9 STAGE — FULL VIEWPORT BASE
+       =========================================== */
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+      background: var(--stage-bg, #000);
+    }
+
+    .deck-viewport {
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+      background: var(--stage-bg, #000);
+    }
+
+    .deck-stage {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1920px;
+      height: 1080px;
+      overflow: hidden;
+      transform-origin: 0 0;
+      background: var(--slide-bg, #fff);
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      width: 1920px;
+      height: 1080px;
+      overflow: hidden;
+      display: block;
+      visibility: hidden;
+      opacity: 0;
+      pointer-events: none;
+      background: var(--slide-bg, #fff);
+    }
+
+    .slide.active,
+    .slide.visible {
+      visibility: visible;
+      opacity: 1;
+      pointer-events: auto;
+      z-index: 1;
+    }
+
+    img,
+    video,
+    canvas,
+    svg {
+      max-width: 100%;
+      max-height: 100%;
+    }
+
+    .deck-controls {
+      position: fixed;
+      left: 50%;
+      bottom: 22px;
+      transform: translateX(-50%);
+      z-index: 1000;
+    }
+
+    @media print {
+      html,
+      body {
+        width: 1920px;
+        height: auto;
+        overflow: visible;
+        background: #fff;
+      }
+
+      .deck-viewport {
+        position: static;
+        overflow: visible;
+        background: #fff;
+      }
+
+      .deck-stage {
+        position: static;
+        width: auto;
+        height: auto;
+        transform: none !important;
+        background: none;
+      }
+
+      .slide {
+        position: relative;
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        pointer-events: auto !important;
+        width: 1920px;
+        height: 1080px;
+        break-after: page;
+        page-break-after: always;
+      }
+
+      .slide:last-child {
+        break-after: auto;
+        page-break-after: auto;
+      }
+
+      .deck-controls,
+      .edit-hotzone,
+      .edit-toggle,
+      .edit-toolbar {
+        display: none !important;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.2s !important;
+      }
+    }
+
+    /* ===========================================
+       PAPER SURFACE AND SHARED SLIDE CHROME
+       =========================================== */
+    .slide {
+      color: var(--ink);
+      background:
+        radial-gradient(120% 90% at 20% 10%, rgba(255,255,255,.18), transparent 60%),
+        radial-gradient(140% 100% at 80% 95%, rgba(0,0,0,.05), transparent 55%),
+        var(--paper);
+      font-family: var(--font-body);
+    }
+
+    .slide::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      opacity: .35;
+      mix-blend-mode: multiply;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.4' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.18'/%3E%3C/svg%3E");
+    }
+
+    .slide.ink {
+      color: var(--paper);
+      background:
+        radial-gradient(100% 100% at 20% 0%, rgba(239,229,106,.08), transparent 55%),
+        var(--ink-deep);
+    }
+
+    .slide.ink::before { opacity: .25; mix-blend-mode: screen; }
+
+    .top-chrome,
+    .footer-chrome {
+      position: absolute;
+      left: 64px;
+      right: 64px;
+      z-index: 5;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-family: var(--font-mono);
+      letter-spacing: .12em;
+      color: currentColor;
+    }
+
+    .top-chrome { top: 40px; font-size: 18px; }
+    .footer-chrome { bottom: 34px; font-size: 15px; opacity: .68; letter-spacing: .14em; }
+    .lockup { display: flex; align-items: center; gap: 12px; }
+    .mark { width: 32px; height: 16px; color: currentColor; overflow: visible; }
+    .meta-tags { display: flex; gap: 28px; }
+    .cjk-label { letter-spacing: 0; }
+
+    .slide-content {
+      position: absolute;
+      z-index: 2;
+      left: 64px;
+      right: 64px;
+      top: 104px;
+      bottom: 82px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* ===========================================
+       TYPOGRAPHY AND CONTENT PRIMITIVES
+       =========================================== */
+    .eyebrow {
+      font-family: var(--font-mono);
+      font-size: 18px;
+      letter-spacing: .12em;
+      line-height: 1;
+    }
+
+    h1, h2, h3 { font-family: var(--font-display); font-weight: 700; letter-spacing: -.02em; }
+    h1 { font-size: 176px; line-height: .92; }
+    h2 { font-size: 92px; line-height: 1.02; }
+    h3 { font-size: 42px; line-height: 1.08; }
+    p, li { font-size: 25px; line-height: 1.58; }
+    strong { font-weight: 700; }
+    .lead { font-size: 32px; line-height: 1.55; }
+    .small { font-size: 20px; line-height: 1.55; }
+    .tiny { font-size: 17px; line-height: 1.5; }
+    .muted { opacity: .74; }
+    .no-wrap { white-space: nowrap; }
+
+    .scribble {
+      font-family: var(--font-script);
+      font-size: 42px;
+      font-weight: 500;
+      line-height: 1.28;
+      color: var(--ink);
+      transform: none;
+    }
+
+    .ink .scribble { color: var(--paper); }
+    .ink .card .scribble { color: var(--ink); }
+    .underline { border-bottom: 2px solid currentColor; }
+
+    .stamp {
+      display: inline-block;
+      align-self: flex-start;
+      padding: 7px 16px 6px;
+      border: 3px solid var(--red);
+      color: var(--red);
+      font-family: var(--font-mono);
+      font-size: 17px;
+      letter-spacing: .12em;
+      transform: rotate(-4deg);
+      background: rgba(248,241,214,.7);
+    }
+
+    /* ===========================================
+       PINNED CARDS, GRIDS, TIMELINES AND TABLES
+       =========================================== */
+    .card {
+      position: relative;
+      min-width: 0;
+      background: var(--cream);
+      color: var(--ink);
+      border: 1.5px solid var(--ink);
+      border-radius: 4px;
+      box-shadow: 5px 6px 0 0 var(--ink);
+      padding: 28px 30px 26px;
+    }
+
+    .card.alt { background: var(--paper-2); }
+    .card.warm { background: var(--paper-extra); transform: rotate(.6deg); }
+    .card.deep { background: var(--paper-3); }
+    .card h3 { margin-bottom: 10px; }
+    .card ul { padding-left: 26px; }
+    .card li + li { margin-top: 8px; }
+    .card .scribble { margin-top: 10px; }
+    .pin-on-card {
+      position: absolute;
+      top: -31px;
+      left: 28px;
+      width: 152px;
+      height: 55px;
+      color: var(--ink);
+      transform: rotate(-10deg);
+      z-index: 3;
+      overflow: visible;
+    }
+
+    .pin-right { left: auto; right: 26px; transform: rotate(14deg); }
+    .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 28px; min-height: 0; flex: 1; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; min-height: 0; flex: 1; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; min-height: 0; flex: 1; }
+    .grid-5 { display: grid; grid-template-columns: repeat(5, 1fr); gap: 20px; min-height: 0; flex: 1; }
+    .span-2 { grid-column: span 2; }
+    .row-tight { display: flex; gap: 18px; align-items: center; }
+
+    .day-card { display: flex; flex-direction: column; justify-content: space-between; }
+    .day-number { font-family: var(--font-script); font-size: 72px; font-weight: 700; line-height: .9; }
+    .day-date { font-family: var(--font-mono); font-size: 16px; margin-bottom: 14px; }
+    .day-card h3 { font-size: 36px; }
+    .day-card p { font-size: 21px; line-height: 1.48; }
+
+    .timeline {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 0;
+      flex: 1;
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    .time,
+    .event {
+      padding: 13px 18px;
+      border-bottom: 1.5px dashed rgba(31,58,138,.42);
+      font-size: 21px;
+      line-height: 1.38;
+    }
+
+    .time { font-family: var(--font-mono); font-size: 18px; font-weight: 500; }
+    .event strong { display: inline; font-family: var(--font-body); }
+    .timeline > :nth-last-child(-n+2) { border-bottom: 0; }
+    .route { font-family: var(--font-mono); font-size: 18px; letter-spacing: .01em; }
+
+    .info-table { display: grid; grid-template-columns: 170px 260px 1fr; }
+    .info-table > div {
+      padding: 15px 18px;
+      border-bottom: 1.5px solid rgba(31,58,138,.45);
+      border-right: 1.5px solid rgba(31,58,138,.45);
+      font-size: 20px;
+      line-height: 1.35;
+    }
+    .info-table > div:nth-child(3n) { border-right: 0; }
+    .info-table > div:nth-last-child(-n+3) { border-bottom: 0; }
+    .table-head { font-family: var(--font-mono); font-size: 16px !important; font-weight: 500; background: rgba(31,58,138,.08); }
+
+    .checklist { list-style: none; padding: 0 !important; }
+    .checklist li { padding-left: 0; }
+    .check-item {
+      position: relative;
+      display: grid;
+      grid-template-columns: 28px 1fr;
+      gap: 14px;
+      align-items: start;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .check-item input {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      opacity: 0;
+      pointer-events: none;
+    }
+    .check-box {
+      display: grid;
+      place-content: center;
+      width: 24px;
+      height: 24px;
+      margin: .35em 0 0;
+      border: 2px solid var(--ink);
+      background: var(--paper-2);
+      cursor: pointer;
+      transition: background .18s ease, transform .18s ease;
+    }
+    .check-box::after {
+      content: "";
+      width: 11px;
+      height: 6px;
+      border-left: 3px solid var(--paper);
+      border-bottom: 3px solid var(--paper);
+      transform: translateY(-1px) rotate(-45deg) scale(0);
+      transition: transform .16s var(--ease-paper);
+    }
+    .check-item input:checked + .check-box {
+      background: var(--ink);
+      transform: rotate(-2deg);
+    }
+    .check-item input:checked + .check-box::after { transform: translateY(-1px) rotate(-45deg) scale(1); }
+    .check-item input:focus-visible + .check-box { outline: 4px solid rgba(194,52,43,.42); outline-offset: 4px; }
+    .check-item input:checked ~ .check-copy { opacity: .58; text-decoration: line-through; text-decoration-thickness: 2px; }
+    .check-copy { transition: opacity .18s ease; }
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 5px 14px 6px;
+      border: 1.5px solid var(--ink);
+      border-radius: 999px;
+      background: var(--ink);
+      color: var(--paper);
+      font-family: var(--font-script);
+      font-weight: 600;
+      font-size: 28px;
+      line-height: 1;
+    }
+    .pill.red { background: transparent; color: var(--red); border-color: var(--red); font-family: var(--font-mono); font-size: 16px; }
+
+    /* ===========================================
+       COVER, SECTION AND ENDING COMPOSITIONS
+       =========================================== */
+    .cover-layout {
+      height: 100%;
+      display: grid;
+      grid-template-columns: 1.18fr .82fr;
+      gap: 46px;
+      align-items: center;
+    }
+    .cover-title { position: relative; padding-top: 20px; }
+    .cover-title h1 .line { display: block; }
+    .cover-title .scribble { font-size: 58px; margin-top: 28px; }
+    .cover-pin {
+      position: absolute;
+      width: 560px;
+      height: 190px;
+      right: 38px;
+      bottom: 120px;
+      color: var(--ink);
+      transform: rotate(18deg);
+      overflow: visible;
+    }
+    .cover-note { padding: 46px 48px 42px; transform: rotate(1deg); }
+    .cover-note h3 { font-size: 56px; }
+    .cover-note p { font-size: 27px; }
+    .cover-note .date { font-family: var(--font-mono); font-size: 20px; margin: 26px 0; }
+
+    .section-layout { height: 100%; display: grid; grid-template-columns: 1fr .9fr; gap: 70px; align-items: center; }
+    .section-layout h2 { font-size: 82px; }
+    .section-number { font-family: var(--font-script); font-size: 260px; font-weight: 700; line-height: .7; }
+    .section-pin { width: 680px; height: 250px; color: var(--paper); transform: rotate(-14deg); overflow: visible; }
+
+    /* ===========================================
+       REVEAL MOTION
+       =========================================== */
+    .reveal,
+    .reveal-left,
+    .reveal-scale {
+      opacity: 0;
+      transition: opacity .65s var(--ease-paper), transform .65s var(--ease-paper);
+    }
+    .reveal { transform: translateY(28px); }
+    .reveal-left { transform: translateX(-40px); }
+    .reveal-scale { transform: scale(.96) rotate(.3deg); }
+    .slide.visible .reveal,
+    .slide.visible .reveal-left,
+    .slide.visible .reveal-scale { opacity: 1; transform: none; }
+    .reveal:nth-child(1) { transition-delay: .08s; }
+    .reveal:nth-child(2) { transition-delay: .16s; }
+    .reveal:nth-child(3) { transition-delay: .24s; }
+    .reveal:nth-child(4) { transition-delay: .32s; }
+    .reveal:nth-child(5) { transition-delay: .40s; }
+
+    /* ===========================================
+       OUT-OF-STAGE CONTROLS AND INLINE EDITING
+       =========================================== */
+    .deck-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      bottom: 16px;
+      padding: 7px 10px;
+      border: 1px solid rgba(255,255,255,.25);
+      border-radius: 999px;
+      background: rgba(14,20,48,.84);
+      color: #fff;
+      backdrop-filter: blur(10px);
+      font-family: var(--font-mono);
+      font-size: 12px;
+    }
+    .deck-controls button,
+    .edit-toolbar button,
+    .edit-toggle {
+      border: 0;
+      color: inherit;
+      background: transparent;
+      font: inherit;
+      cursor: pointer;
+    }
+    .deck-controls button { width: 28px; height: 24px; border-radius: 999px; }
+    .deck-controls button:hover { background: rgba(255,255,255,.15); }
+    #pageCount { white-space: nowrap; min-width: 54px; text-align: center; }
+    .progress-line { width: 90px; height: 3px; background: rgba(255,255,255,.2); overflow: hidden; }
+    .progress-fill { display: block; height: 100%; width: 0; background: var(--paper); transition: width .25s ease; }
+
+    .edit-hotzone { position: fixed; top: 0; left: 0; width: 82px; height: 82px; z-index: 10000; cursor: pointer; }
+    .edit-toggle {
+      position: fixed;
+      top: 14px;
+      left: 14px;
+      z-index: 10001;
+      width: 42px;
+      height: 42px;
+      border-radius: 999px;
+      opacity: 0;
+      pointer-events: none;
+      background: var(--ink-deep);
+      color: #fff;
+      transition: opacity .3s ease;
+      box-shadow: 0 6px 22px rgba(0,0,0,.28);
+    }
+    .edit-toggle.show,
+    .edit-toggle.active { opacity: 1; pointer-events: auto; }
+    .edit-toolbar {
+      position: fixed;
+      top: 14px;
+      left: 66px;
+      z-index: 10001;
+      display: none;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: var(--ink-deep);
+      color: #fff;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      box-shadow: 0 6px 22px rgba(0,0,0,.28);
+    }
+    .edit-toolbar.visible { display: flex; }
+    .edit-toolbar button { padding: 5px 10px; border-radius: 999px; background: rgba(255,255,255,.1); }
+    [contenteditable="true"] { outline: 3px dashed rgba(194,52,43,.6); outline-offset: 3px; cursor: text; }
+
+    /* ===========================================
+       MOBILE PORTRAIT STAGE — 9:16
+       Phone screens receive a true portrait composition instead of a
+       miniature landscape slide. Desktop and landscape devices stay 16:9.
+       =========================================== */
+    @media screen and (max-aspect-ratio: 3 / 4) {
+      .deck-stage,
+      .slide {
+        width: 1080px;
+        height: 1920px;
+      }
+
+      .top-chrome,
+      .footer-chrome {
+        left: 48px;
+        right: 48px;
+      }
+      .top-chrome { top: 42px; font-size: 23px; }
+      .footer-chrome { bottom: 38px; font-size: 20px; }
+      .meta-tags { gap: 22px; }
+      .mark { width: 38px; height: 19px; }
+
+      .slide-content {
+        left: 48px;
+        right: 48px;
+        top: 128px;
+        bottom: 118px;
+        gap: 28px;
+      }
+
+      .eyebrow { font-size: 24px; }
+      h1 { font-size: 136px; line-height: .94; }
+      h2 { font-size: 76px; line-height: 1.08; }
+      h3 { font-size: 46px; line-height: 1.14; }
+      p, li { font-size: 32px; line-height: 1.52; }
+      .lead { font-size: 39px; line-height: 1.5; }
+      .small { font-size: 28px; line-height: 1.48; }
+      .tiny { font-size: 23px; }
+      .scribble { font-size: 38px; line-height: 1.34; }
+      .stamp { padding: 8px 16px 7px; font-size: 20px; }
+
+      .card {
+        padding: 32px 34px 30px;
+        box-shadow: 6px 7px 0 0 var(--ink);
+      }
+      .card h3 { margin-bottom: 12px; }
+      .pin-on-card { top: -29px; width: 154px; height: 56px; }
+      .row-tight { align-items: flex-start; flex-wrap: wrap; gap: 16px; }
+
+      .grid-2,
+      .grid-3,
+      .grid-4 {
+        grid-template-columns: 1fr;
+        gap: 28px;
+      }
+      .grid-5 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-rows: repeat(3, minmax(0, 1fr));
+        gap: 24px;
+      }
+      .grid-5 > :last-child { grid-column: 1 / -1; }
+      .card > .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; }
+      .span-2 { grid-column: auto; }
+
+      .day-card { padding: 24px 26px 22px; }
+      .day-number { font-size: 62px; }
+      .day-date { font-size: 21px; margin-bottom: 9px; }
+      .day-card h3 { font-size: 38px; }
+      .day-card p { font-size: 26px; line-height: 1.42; }
+      .day-card .pill { font-size: 25px; }
+
+      .timeline { grid-template-columns: 210px 1fr; }
+      .time,
+      .event {
+        padding: 15px 16px;
+        font-size: 29px;
+        line-height: 1.42;
+      }
+      .time { font-size: 25px; }
+      .route { font-size: 25px; }
+
+      .info-table { grid-template-columns: 130px 220px 1fr; }
+      .info-table > div {
+        padding: 15px 14px;
+        font-size: 26px;
+        line-height: 1.42;
+      }
+      .table-head { font-size: 22px !important; }
+      .check-item { grid-template-columns: 34px 1fr; gap: 16px; }
+      .check-box { width: 30px; height: 30px; }
+      .check-box::after { width: 14px; height: 8px; border-width: 0 0 4px 4px; }
+      .pill { font-size: 28px; }
+      .pill.red { font-size: 20px; }
+
+      .cover-layout,
+      .section-layout {
+        grid-template-columns: 1fr;
+        gap: 50px;
+        align-content: center;
+      }
+      .cover-layout { grid-template-rows: auto auto; }
+      .cover-title { padding: 0 8px; }
+      .cover-title .scribble { font-size: 46px; margin-top: 26px; }
+      .cover-pin {
+        display: none;
+      }
+      .cover-note { padding: 46px 46px 40px; }
+      .cover-note h3 { font-size: 54px; }
+      .cover-note p { font-size: 31px; }
+      .cover-note .date { font-size: 25px; margin: 24px 0; }
+
+      .section-layout { grid-template-rows: auto auto; }
+      .section-layout h2 { font-size: 84px; }
+      .section-number { font-size: 220px; }
+      .section-pin { width: 650px; height: 225px; }
+
+      .deck-controls {
+        bottom: 18px;
+        gap: 12px;
+        padding: 10px 14px;
+        font-size: 15px;
+      }
+      .deck-controls button { width: 42px; height: 36px; }
+      #pageCount { min-width: 68px; }
+      .progress-line { width: 118px; height: 4px; }
+
+      .edit-hotzone { width: 64px; height: 64px; }
+      .edit-toggle { top: 10px; left: 10px; }
+      .edit-toolbar { top: 10px; left: 60px; }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- ===========================================
+       REUSABLE PIN SYMBOLS
+       =========================================== -->
+  <svg aria-hidden="true" width="0" height="0" style="position:absolute">
+    <defs>
+      <symbol id="pin" viewBox="0 0 360 110">
+        <path d="M24 73 C68 79 121 75 161 62 C207 47 247 25 284 27 C325 30 342 60 323 83 C306 104 270 100 259 76 C249 54 267 33 290 39 C311 44 320 66 309 79 C298 92 278 89 272 75" fill="none" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M24 73 L10 66 L20 85 Z" fill="currentColor"/>
+        <path d="M273 74 C221 79 162 89 104 91" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"/>
+      </symbol>
+      <symbol id="pin-open" viewBox="0 0 360 130">
+        <path d="M20 91 C72 91 118 83 162 65 C216 43 264 18 306 24 C340 29 350 58 334 80 C320 99 292 100 278 83 C263 65 274 42 294 38" fill="none" stroke="currentColor" stroke-width="8" stroke-linecap="round"/>
+        <path d="M20 91 L6 83 L17 104 Z" fill="currentColor"/>
+        <path d="M286 83 C233 88 179 101 119 108" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"/>
+      </symbol>
+      <symbol id="mark" viewBox="0 0 32 16">
+        <path d="M2 8 H23" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        <path d="M2 8 L8 3 M2 8 L8 13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        <circle cx="26" cy="8" r="4" fill="none" stroke="currentColor" stroke-width="2"/>
+      </symbol>
+    </defs>
+  </svg>
+
+  <div class="deck-viewport">
+    <main class="deck-stage" id="deckStage" aria-live="polite">
+
+      <!-- ===========================================
+           01 COVER
+           =========================================== -->
+      <section class="slide active visible" aria-label="封面">
+        <div class="top-chrome"><div class="lockup"><svg class="mark"><use href="#mark"></use></svg><span class="cjk-label">旅行档案 2026</span></div><div class="meta-tags"><span>广州</span><span>深圳</span></div></div>
+        <div class="slide-content">
+          <div class="cover-layout">
+            <div class="cover-title reveal-left">
+              <div class="eyebrow">SEP 25—29 / FIVE DAYS</div>
+              <h1 data-editable><span class="line">广州 + 深圳</span><span class="line">5 天 4 晚</span></h1>
+              <div class="scribble" data-editable>老广生活感 · 好吃优先 · 中秋见面夜 · 深圳山海</div>
+              <svg class="cover-pin"><use href="#pin"></use></svg>
+            </div>
+            <article class="card cover-note reveal-scale">
+              <svg class="pin-on-card pin-right"><use href="#pin-open"></use></svg>
+              <div class="stamp">FRIENDS TRIP</div>
+              <h3 data-editable>慢一点，才是这趟旅行的正事</h3>
+              <p class="date">2026.09.25—09.29</p>
+              <p data-editable>两个人，广州吃老味道，深圳看山海。行程已经按航班、酒店和高铁重新整理。</p>
+              <div class="scribble" data-editable>“不赶景点，也不为了打卡硬吃。”</div>
+            </article>
+          </div>
+        </div>
+        <div class="footer-chrome"><span>最终行程 / 朋友同行版</span><span>01 / 17</span></div>
+      </section>
+
+      <!-- ===========================================
+           02 FIVE-DAY OVERVIEW
+           =========================================== -->
+      <section class="slide" aria-label="五天总览">
+        <div class="top-chrome"><div class="lockup"><svg class="mark"><use href="#mark"></use></svg><span class="cjk-label">五天总览</span></div><div class="meta-tags"><span>5 DAYS</span><span>4 NIGHTS</span></div></div>
+        <div class="slide-content">
+          <h2 class="reveal" data-editable>先记住这五条主线</h2>
+          <div class="grid-5">
+            <article class="card day-card reveal"><div><div class="day-number">01</div><div class="day-date">09 / 25 · 广州</div><h3 data-editable>中秋见面夜</h3><p data-editable>成都落地广州，酒店汇合，粤菜晚饭，二沙岛江边赏月。</p></div><span class="pill">落地不赶</span></article>
+            <article class="card alt day-card reveal"><div><div class="day-number">02</div><div class="day-date">09 / 26 · 广州</div><h3 data-editable>老城与小吃</h3><p data-editable>银灯饮茶、陈家祠、西关街巷；早起版或晚起古着版二选一。</p></div><span class="pill">好吃优先</span></article>
+            <article class="card warm day-card reveal"><div><div class="day-number">03</div><div class="day-date">09 / 27 · 深圳</div><h3 data-editable>慢慢换城市</h3><p data-editable>11:09 高铁到深圳，下午轻松；车公庙或深圳湾日落二选一。</p></div><span class="pill">留体力</span></article>
+            <article class="card day-card reveal"><div><div class="day-number">04</div><div class="day-date">09 / 28 · 深圳</div><h3 data-editable>只看山海</h3><p data-editable>杨梅坑、鹿嘴山庄。当天不再加塞大梅沙或世界之窗。</p></div><span class="pill">唯一早起</span></article>
+            <article class="card alt day-card reveal"><div><div class="day-number">05</div><div class="day-date">09 / 29 · 返程</div><h3 data-editable>各自回家</h3><p data-editable>朋友回河源；你经广州南与城际到白云 T3，18:15 飞成都。</p></div><span class="pill">不排景点</span></article>
+          </div>
+        </div>
+        <div class="footer-chrome"><span>旅行节奏 / 每天只抓一件大事</span><span>02 / 17</span></div>
+      </section>
+
+      <!-- ===========================================
+           03 CONFIRMED BOOKINGS
+           =========================================== -->
+      <section class="slide" aria-label="已订交通与住宿">
+        <div class="top-chrome"><div class="lockup"><svg class="mark"><use href="#mark"></use></svg><span class="cjk-label">已确定信息</span></div><div class="meta-tags"><span>BOOKED</span><span>CHECK ONCE</span></div></div>
+        <div class="slide-content">
+          <div class="row-tight"><h2 class="reveal" data-editable>交通与住宿，已经钉牢</h2><span class="stamp reveal">CONFIRMED</span></div>
+          <article class="card reveal-scale">
+            <svg class="pin-on-card"><use href="#pin"></use></svg>
+            <div class="info-table">
+              <div class="table-head">日期</div><div class="table-head">项目</div><div class="table-head">已订信息 / 备注</div>
+              <div>9 / 25</div><div>成都 → 广州</div><div><strong>川航 3U6703</strong>　13:30—15:50；当天 9:30 出门</div>
+              <div>9 / 25—27</div><div>广州住宿</div><div><strong>汉庭广州越秀公园纪念堂酒店</strong>　解放北路 783 号 · 双床房</div>
+              <div>9 / 27</div><div>广州南 → 深圳北</div><div><strong>G6001</strong>　11:09—11:39；吃早餐 8:30 起，不吃则 9:00 起</div>
+              <div>9 / 27—29</div><div>深圳住宿</div><div><strong>汉庭深圳竹子林酒店</strong>　竹子林五路 12 号 · 双床房 A</div>
+              <div>9 / 29</div><div>深圳北 → 广州南</div><div><strong>G382</strong>　11:41—12:10；你单独乘坐，朋友直接回河源</div>
+              <div>9 / 29</div><div>广州 → 成都</div><div><strong>东航 MU9894</strong>　18:15—20:20；白云 T3 → 天府 T2</div>
+            </div>
+          </article>
+          <div class="scribble reveal" data-editable>身份证、车票信息、充电宝：每次退房前再摸一遍。</div>
+        </div>
+        <div class="footer-chrome"><span>以订单页与当天交通信息为准</span><span>03 / 17</span></div>
+      </section>
+
+      <!-- ===========================================
+           04 PRE-DEPARTURE CHECKLIST
+           =========================================== -->
+      <section class="slide" aria-label="出发前预约与取号">
+        <div class="top-chrome"><div class="lockup"><svg class="mark"><use href="#mark"></use></svg><span class="cjk-label">出发前</span></div><div class="meta-tags"><span>RESERVE</span><span>QUEUE</span></div></div>
+        <div class="slide-content">
+          <h2 class="reveal" data-editable>预约、取号、查天气</h2>
+          <div class="grid-2">
+            <article class="card reveal"><svg class="pin-on-card"><use href="#pin"></use></svg><h3>必须完成</h3><ul class="checklist">
+              <li><label class="check-item"><input type="checkbox" data-check-id="reserve-chen-clan"><span class="check-box" aria-hidden="true"></span><span class="check-copy"><strong>9 / 19 起</strong>：预约 9 / 26 陈家祠；服务号“广东民间工艺博物馆”，成人票 10 元，带身份证。</span></label></li>
+              <li><label class="check-item"><input type="checkbox" data-check-id="queue-pigeon"><span class="check-box" aria-hidden="true"></span><span class="check-copy"><strong>9 / 25 落地后</strong>：看大鸽饭（北京路店）能否线上取号；中秋别等到店才排。</span></label></li>
+              <li><label class="check-item"><input type="checkbox" data-check-id="queue-yindeng"><span class="check-box" aria-hidden="true"></span><span class="check-copy"><strong>9 / 26 出门前</strong>：看银灯食府实时排队，能取号就先取。</span></label></li>
+            </ul></article>
+            <article class="card alt reveal"><svg class="pin-on-card pin-right"><use href="#pin-open"></use></svg><h3>当天再决定</h3><ul class="checklist">
+              <li><label class="check-item"><input type="checkbox" data-check-id="rent-bike"><span class="check-box" aria-hidden="true"></span><span class="check-copy"><strong>9 / 27 骑行</strong>：不用预订；深圳湾公园“山海驿”现场租车，公开运营时间 10:00—22:00。</span></label></li>
+              <li><label class="check-item"><input type="checkbox" data-check-id="check-sea-weather"><span class="check-box" aria-hidden="true"></span><span class="check-copy"><strong>9 / 28 看海</strong>：景区免费，观光车现场买；前一晚查天气、风浪和临时管控。</span></label></li>
+              <li><label class="check-item"><input type="checkbox" data-check-id="check-airport-train"><span class="check-box" aria-hidden="true"></span><span class="check-copy"><strong>9 / 28 晚</strong>：在 12306 / 广东城际查番禺站 → 白云机场东站（T3）班次。</span></label></li>
+            </ul></article>
+          </div>
+          <div class="card deep reveal"><div class="row-tight"><span class="stamp">MID-AUTUMN</span><p data-editable><strong>9 / 25—27 为中秋假期。</strong>餐厅、陈家祠和大鹏都会更挤。“提前取号 + 留 Plan B”比把行程排满更重要。</p></div></div>
+        </div>
+        <div class="footer-chrome"><span>节假日策略 / 提前看排队，不和人潮硬碰</span><span>04 / 17</span></div>
+      </section>
+
+      <!-- ===========================================
+           05 DAY ONE TIMELINE
+           =========================================== -->
+      <section class="slide" aria-label="9月25日中秋见面夜">
+        <div class="top-chrome"><div class="lockup"><svg class="mark"><use href="#mark"></use></svg><span class="cjk-label">9 月 25 日</span></div><div class="meta-tags"><span>成都 → 广州</span><span>DAY 01</span></div></div>
+        <div class="slide-content">
+          <div class="row-tight"><h2 class="reveal" data-editable>落地、见面、吃饭、赏月</h2><span class="pill reveal">今天不赶景点</span></div>
+          <article class="card reveal-scale">
+            <svg class="pin-on-card"><use href="#pin"></use></svg>
+            <div class="timeline">
+              <div class="time">13:30—15:50</div><div class="event"><strong>成都飞广州</strong>　川航 3U6703；落地后取行李。</div>
+              <div class="time">约 16:30—17:50</div><div class="event"><strong>白云机场 → 酒店</strong>　T2 从机场北上车，T1 从机场南上车；3 号线北延段 → 嘉禾望岗换 2 号线 → 纪念堂。</div>
+              <div class="time">约 18:00</div><div class="event"><strong>入住并汇合</strong>　放行李、休息、换适合拍照和晚饭的衣服。</div>
+              <div class="time">18:30—20:00</div><div class="event"><strong>中秋晚饭</strong>　优先大鸽饭（北京路店），两个人别点太满。</div>
+              <div class="time">20:30—21:50</div><div class="event"><strong>二沙岛江边赏月</strong>　打车到艺术公园 / 星海音乐厅一带，沿珠江散步、聊天、拍照。</div>
+              <div class="time">约 22:00</div><div class="event"><strong>回酒店</strong>　第一晚不再安排夜宵硬吃。</div>
+            </div>
+          </article>
+          <div class="scribble reveal" data-editable>第一晚的目标：把人见到，把月亮看到。</div>
+        </div>
+        <div class="footer-chrome"><span>中秋见面夜 / 二沙岛比主景区更安静</span><span>05 / 17</span></div>
+      </section>
+
+      <!-- ===========================================
+           06 DAY ONE FOOD DECISION
+           =========================================== -->
+      <section class="slide" aria-label="中秋晚餐与赏月细节">
+        <div class="top-chrome"><div class="lockup"><svg class="mark"><use href="#mark"></use></svg><span class="cjk-label">中秋晚饭</span></div><div class="meta-tags"><span>FOOD</span><span>MOON</span></div></div>
+        <div class="slide-content">
+          <div class="row-tight"><h2 class="reveal" data-editable>中秋晚餐，就吃大鸽饭</h2><span class="stamp reveal">CONFIRMED</span></div>
+          <div class="grid-2">
+            <article class="card reveal"><svg class="pin-on-card"><use href="#pin"></use></svg><h3>大鸽饭（北京路店）</h3><p><strong>地址：</strong>越秀区西湖路 68 号</p><p><strong>建议点：</strong>爆汁红烧鸽皇 / 传统盐焗鸽皇二选一或各 1 只，小份大鸽饭，蔬菜或鸽汤。</p><p><strong>原则：</strong>中秋当天提前线上取号，按两个人的食量点，不要点满。</p><div class="scribble">别把晚饭吃成排队比赛。</div></article>
+            <article class="card warm reveal"><svg class="pin-on-card pin-right"><use href="#pin-open"></use></svg><h3>排号与赏月衔接</h3><p><strong>17:00 左右</strong>确认营业状态和排号，能线上取号就先取；到店后先问清预计等位时间。</p><p>吃完直接打车去二沙岛艺术公园 / 星海音乐厅一带，把时间留给江边赏月。</p><span class="pill red">提前取号</span></article>
+          </div>
+          <article class="card alt reveal"><div class="grid-3"><div><h3>二沙岛</h3><p>艺术公园 / 星海音乐厅一带</p></div><div><h3>怎么去</h3><p>晚饭后直接打车，省体力</p></div><div><h3>怎么逛</h3><p>散步、聊天、拍照；不再塞夜宵</p></div></div></article>
+        </div>
+        <div class="footer-chrome"><span>晚餐已确定 / 大鸽饭北京路店</span><span>06 / 17</span></div>
+      </section>
+
+      <!-- ===========================================
+           07 DAY TWO CHOICE
+           =========================================== -->
+      <section class="slide ink" aria-label="9月26日广州老城两套方案">
+        <div class="top-chrome"><div class="lockup"><svg class="mark"><use href="#mark"></use></svg><span class="cjk-label">9 月 26 日</span></div><div class="meta-tags"><span>广州老城</span><span>DAY 02</span></div></div>
+        <div class="slide-content">
+          <div class="section-layout">
+            <div class="reveal-left"><div class="section-number">02</div><h2 data-editable>早起西关，或晚起古着</h2><p class="lead" data-editable>今天是广州最完整的一天。两套方案都保留银灯食府与陈家祠，差别在于下午把体力给街巷，还是给小吃和古着。</p></div>
+            <div class="reveal-scale"><svg class="section-pin"><use href="#pin-open"></use></svg><div class="scribble" data-editable>不跑广州塔，把一天留给“广州本身”。</div></div>
+          </div>
+        </div>
+        <div class="footer-chrome"><span>方案一更本土 / 方案二更松弛</span><span>07 / 17</span></div>
+      </section>
+
+      <!-- ===========================================
+           08 DAY TWO EARLY ROUTE
+           =========================================== -->
+      <section class="slide" aria-label="9月26日早起西关版">
+        <div class="top-chrome"><div class="lockup"><svg class="mark"><use href="#mark"></use></svg><span class="cjk-label">方案一</span></div><div class="meta-tags"><span>早起版</span><span>西关 CITYWALK</span></div></div>
+        <div class="slide-content">
+          <h2 class="reveal" data-editable>银灯早茶 → 西关街巷 → 沙面</h2>
+          <div class="grid-2">
+            <article class="card reveal"><svg class="pin-on-card"><use href="#pin"></use></svg><div class="timeline">
+              <div class="time">07:40</div><div class="event"><strong>起床出门</strong>　酒店无早餐，把肚子留给早茶。</div>
+              <div class="time">08:30—10:00</div><div class="event"><strong>银灯食府</strong>　早餐 + 早午餐，不再硬塞正餐。</div>
+              <div class="time">10:30—12:00</div><div class="event"><strong>陈家祠</strong>　岭南建筑、木雕、石雕、陶塑。</div>
+              <div class="time">12:20—14:00</div><div class="event"><strong>宝华路 → 多宝路 → 恩宁路</strong>　饿了再少量吃云吞面、牛杂、鱼皮。</div>
+            </div></article>
+            <article class="card alt reveal"><svg class="pin-on-card pin-right"><use href="#pin-open"></use></svg><div class="timeline">
+              <div class="time">14:00—14:30</div><div class="event"><strong>南信甜品</strong>　第十甫路 47 号；双皮奶、姜撞奶。</div>
+              <div class="time">14:40—16:10</div><div class="event"><strong>永庆坊 / 恩宁路</strong>　看骑楼和西关生活感。</div>
+              <div class="time">16:35—17:45</div><div class="event"><strong>沙面散步</strong>　拍照、看建筑，控制在 1 小时左右。</div>
+              <div class="time">18:00 以后</div><div class="event"><strong>惠食佳滨江大公馆</strong>　建议打车；饭后沿滨江西路散步，累了就直接回酒店。</div>
+            </div></article>
+          </div>
+          <div class="scribble reveal">路线串起来走，别为了“每个店都到”来回折腾。</div>
+        </div>
+        <div class="footer-chrome"><span>早起版 / 本土感更完整</span><span>08 / 17</span></div>
+      </section>
+
+      <!-- ===========================================
+           09 DAY TWO LATE ROUTE
+           =========================================== -->
+      <section class="slide" aria-label="9月26日晚起古着版">
+        <div class="top-chrome"><div class="lockup"><svg class="mark"><use href="#mark"></use></svg><span class="cjk-label">方案二</span></div><div class="meta-tags"><span>晚起版</span><span>小吃 + 古着</span></div></div>
+        <div class="slide-content">
+          <h2 class="reveal" data-editable>10 点起，也能把广州逛明白</h2>
+          <div class="grid-3">
+            <article class="card reveal"><svg class="pin-on-card"><use href="#pin"></use></svg><h3>上午</h3><p><strong>10:45</strong> 酒店出发<br><strong>11:10—12:30</strong> 银灯早午茶<br><strong>13:00—14:15</strong> 陈家祠</p><div class="scribble">早茶不必真的“早”。</div></article>
+            <article class="card alt reveal"><svg class="pin-on-card pin-right"><use href="#pin-open"></use></svg><h3>下午</h3><p><strong>14:30—16:10</strong> 西华路吃吃停停：珍珍小食、沙湾甜品；荔林约 16:00 收档，想试就优先。</p><p><strong>16:25—18:15</strong> 西门口古着：1977、12HOURS、中六 VINTAGE。</p></article>
+            <article class="card warm reveal"><h3>晚上看体力</h3><p><strong>A 还有精神：</strong>长寿路 → 恩宁路 / 永庆坊，只逛 45—60 分钟。</p><p><strong>B 已经累：</strong>西门口附近直接吃饭，饭后回酒店。</p><span class="pill">现场二选一</span></article>
+          </div>
+          <article class="card deep reveal"><div class="grid-3"><div><h3>银灯食府</h3><p class="small">红米肠、虾饺、烧卖 / 金钱肚、凤爪、粥或萝卜糕；两人 4—5 样。</p></div><div><h3>晚饭老店感</h3><p class="small">向群饭店：葱油鸡、豉油黄鹅肠、生炒连州菜心；尝试提前 3—4 天电话留位。</p></div><div><h3>炖汤备选</h3><p class="small">达杨原味炖品：原只椰子炖竹丝鸡。更像夜宵，不和正式晚饭硬叠。</p></div></div></article>
+        </div>
+        <div class="footer-chrome"><span>晚起版 / 吃吃停停，逛古着不设 KPI</span><span>09 / 17</span></div>
+      </section>
+
+      <!-- ===========================================
+           10 DAY THREE TRANSFER
+           =========================================== -->
+      <section class="slide" aria-label="9月27日广州到深圳">
+        <div class="top-chrome"><div class="lockup"><svg class="mark"><use href="#mark"></use></svg><span class="cjk-label">9 月 27 日</span></div><div class="meta-tags"><span>广州 → 深圳</span><span>DAY 03</span></div></div>
+        <div class="slide-content">
+          <div class="row-tight"><h2 class="reveal" data-editable>先把城市换好，再决定下午去哪</h2><span class="pill reveal">为 28 号留体力</span></div>
+          <article class="card reveal-scale"><svg class="pin-on-card"><use href="#pin"></use></svg><div class="timeline">
+            <div class="time">08:45—09:40</div><div class="event"><strong>起床 + 附近早餐</strong>　简单吃肠粉 / 粥，不排正式早茶。</div>
+            <div class="time">09:40—10:00</div><div class="event"><strong>退房、出发</strong>　步行到纪念堂站。</div>
+            <div class="time">10:00 左右</div><div class="event"><strong>纪念堂 → 广州南</strong>　地铁 2 号线直达，不换乘，预留安检。</div>
+            <div class="time">11:09—11:39</div><div class="event"><strong>G6001 广州南 → 深圳北</strong>　两人同行。</div>
+            <div class="time">11:45—12:35</div><div class="event"><strong>深圳北 → 竹子林酒店</strong>　4 号线 → 会展中心换 1 号线 → 竹子林 B2。</div>
+            <div class="time">12:35—16:20</div><div class="event"><strong>放行李 + 午饭 + 休息</strong>　车公庙只是方便吃饭的区域，不把它当必须打卡的景点。</div>
+          </div></article>
+          <div class="scribble reveal">下午两套方案：省力的车公庙，或更好看的深圳湾日落。</div>
+        </div>
+        <div class="footer-chrome"><span>先入住休息 / 下午再看天气与体力</span><span>10 / 17</span></div>
+      </section>
+
+      <!-- ===========================================
+           11 DAY THREE OPTIONS
+           =========================================== -->
+      <section class="slide" aria-label="9月27日深圳下午两套方案">
+        <div class="top-chrome"><div class="lockup"><svg class="mark"><use href="#mark"></use></svg><span class="cjk-label">深圳下午</span></div><div class="meta-tags"><span>PLAN A</span><span>PLAN B</span></div></div>
+        <div class="slide-content">
+          <h2 class="reveal" data-editable>省力版 vs. 海边日落版</h2>
+          <div class="grid-2">
+            <article class="card reveal"><svg class="pin-on-card"><use href="#pin"></use></svg><h3>方案 A：车公庙</h3><p><strong>14:00—16:30</strong> 园博园 / 竹子林周边慢走，或回酒店休息。</p><p><strong>17:40—19:15</strong> 潮泰牛肉火锅（车公庙店）。</p><p><strong>19:20—20:40</strong> 泰然六路、七路散步，看深圳上班族夜生活。</p><div class="scribble">近、稳、省脚。</div></article>
+            <article class="card alt reveal"><svg class="pin-on-card pin-right"><use href="#pin-open"></use></svg><h3>方案 B：深圳湾日落</h3><p><strong>16:20—16:50</strong> 竹子林 → 深圳湾公园。</p><p><strong>16:50—18:20</strong> 海边慢走、等日落；先不骑。</p><p><strong>18:20—19:45</strong> 山海驿现场租车 → 深圳湾体育中心还车 → 人才公园看春笋和夜景。</p><div class="scribble">核心是海边，不是骑行里程。</div></article>
+          </div>
+          <article class="card warm reveal"><div class="grid-3"><div><h3>骑行兜底</h3><p class="small">太热、下雨、没车或已经累，就直接去人才公园，不强行骑。</p></div><div><h3>晚饭看排队</h3><p class="small">老店感、离酒店近：潮泰。想吃椰子鸡：原味主张。</p></div><div><h3>决定时间</h3><p class="small">17:30 前看两家排队即可，不需要现在锁死。</p></div></div></article>
+        </div>
+        <div class="footer-chrome"><span>27 号核心 / 海边 + 城市夜景</span><span>11 / 17</span></div>
+      </section>
+
+      <!-- ===========================================
+           12 DAY FOUR CHOICE
+           =========================================== -->
+      <section class="slide ink" aria-label="9月28日深圳看海日">
+        <div class="top-chrome"><div class="lockup"><svg class="mark"><use href="#mark"></use></svg><span class="cjk-label">9 月 28 日</span></div><div class="meta-tags"><span>杨梅坑</span><span>鹿嘴山庄</span></div></div>
+        <div class="slide-content">
+          <div class="section-layout">
+            <div class="reveal-left"><div class="section-number">04</div><h2 data-editable>整天只做一件事：看山海</h2><p class="lead" data-editable>不塞大梅沙、不塞世界之窗。路线分“早起稳妥版”和“8:30 舒服版”，当天只按天气、堵车和叫车情况做选择。</p></div>
+            <div class="reveal-scale"><svg class="section-pin"><use href="#pin"></use></svg><div class="scribble">早一点更稳，晚一点更舒服。</div></div>
+          </div>
+        </div>
+        <div class="footer-chrome"><span>看海日 / 安全与交通优先</span><span>12 / 17</span></div>
+      </section>
+
+      <!-- ===========================================
+           13 DAY FOUR EARLY PLAN
+           =========================================== -->
+      <section class="slide" aria-label="9月28日早起稳妥版">
+        <div class="top-chrome"><div class="lockup"><svg class="mark"><use href="#mark"></use></svg><span class="cjk-label">方案一</span></div><div class="meta-tags"><span>早起版</span><span>公交稳妥</span></div></div>
+        <div class="slide-content">
+          <h2 class="reveal" data-editable>6:40 出门，公交把路线走稳</h2>
+          <article class="card reveal-scale"><svg class="pin-on-card"><use href="#pin"></use></svg><div class="timeline">
+            <div class="time">06:40—07:20</div><div class="event"><strong>起床、早餐、出门</strong>　防晒、帽子、充电宝、水、防水袋都带上。</div>
+            <div class="time">07:20 起</div><div class="event"><strong>竹子林 → 溪涌</strong>　1 号线 → 世界之窗换 2 / 8 号线。</div>
+            <div class="time">到溪涌后</div><div class="event"><strong>E92 → 新大公交总站</strong>　再换 M274 到杨梅坑；实时到站以当天导航为准。</div>
+            <div class="time">10:00—12:30</div><div class="event"><strong>杨梅坑海岸</strong>　沿海岸慢走、拍照，不用一到就冲鹿嘴。</div>
+            <div class="time">12:30—13:30</div><div class="event"><strong>简单午饭</strong>　优先明码标价的简餐、粉面、小炒，不随便点一桌海鲜。</div>
+            <div class="time">13:30—16:20</div><div class="event"><strong>鹿嘴山庄 / 山海栈道</strong>　按体力坐观光车，重点看海岸、礁石、悬崖。</div>
+            <div class="time">16:20 起</div><div class="event"><strong>开始返程</strong>　尽量不拖到天黑；M274 → E92 → 溪涌地铁。</div>
+          </div></article>
+          <div class="scribble reveal">优点：更稳。代价：这趟唯一真正的早起。</div>
+        </div>
+        <div class="footer-chrome"><span>早起版 / 交通路径更确定</span><span>13 / 17</span></div>
+      </section>
+
+      <!-- ===========================================
+           14 DAY FOUR COMFORT PLAN
+           =========================================== -->
+      <section class="slide" aria-label="9月28日八点半舒服版">
+        <div class="top-chrome"><div class="lockup"><svg class="mark"><use href="#mark"></use></svg><span class="cjk-label">方案二</span></div><div class="meta-tags"><span>8:30 起</span><span>E11 + 现场判断</span></div></div>
+        <div class="slide-content">
+          <h2 class="reveal" data-editable>8:30 起床，到了大鹏再做判断</h2>
+          <div class="grid-2">
+            <article class="card reveal"><svg class="pin-on-card"><use href="#pin"></use></svg><div class="timeline">
+              <div class="time">09:10—10:05</div><div class="event"><strong>竹子林 → 银湖</strong>　1 号线 → 车公庙换 9 号线；带轻便包、运动鞋、水和零食。</div>
+              <div class="time">10:05—11:20</div><div class="event"><strong>E11 到大鹏中心①</strong>　东部道路会堵，实时为准。</div>
+              <div class="time">到大鹏后</div><div class="event"><strong>叫车 / M274 二选一</strong>　车费 ≤100 元 / 车且 15 分钟内能接单就打车，否则坐 M274 到杨梅坑。</div>
+              <div class="time">约 12:00</div><div class="event"><strong>杨梅坑午饭</strong>　补水，不排贵海鲜。</div>
+            </div></article>
+            <article class="card alt reveal"><svg class="pin-on-card pin-right"><use href="#pin-open"></use></svg><div class="timeline">
+              <div class="time">12:30—13:00</div><div class="event"><strong>观光车进鹿嘴</strong>　景区免费；公开票价成人单程 16 元 / 人，不徒步 4—5 公里进山庄。</div>
+              <div class="time">13:00—15:45</div><div class="event"><strong>只走精华段</strong>　观景平台、美人鱼洞方向；陡坡或暴晒就回头。</div>
+              <div class="time">15:45—16:20</div><div class="event"><strong>提前撤</strong>　别拖到观光车停运前。</div>
+              <div class="time">16:20 以后</div><div class="event"><strong>返程</strong>　优先网约车回大鹏中心；不行就 M274，再 E11 → 银湖 → 竹子林。</div>
+            </div></article>
+          </div>
+          <div class="card warm reveal"><div class="row-tight"><span class="stamp">WEATHER FIRST</span><p><strong>前一晚与当天早上都查：</strong>深圳东部天气、风浪、临时管控、E11 / E92 / M274 实时到站。安全和交通永远比“完成路线”重要。</p></div></div>
+        </div>
+        <div class="footer-chrome"><span>舒服版 / 可能堵车，也可能打不到车</span><span>14 / 17</span></div>
+      </section>
+
+      <!-- ===========================================
+           15 DAY FIVE RETURN
+           =========================================== -->
+      <section class="slide" aria-label="9月29日分别返程">
+        <div class="top-chrome"><div class="lockup"><svg class="mark"><use href="#mark"></use></svg><span class="cjk-label">9 月 29 日</span></div><div class="meta-tags"><span>分别返程</span><span>DAY 05</span></div></div>
+        <div class="slide-content">
+          <div class="row-tight"><h2 class="reveal" data-editable>早餐、退房，然后各自回家</h2><span class="pill reveal">不排正式景点</span></div>
+          <article class="card reveal-scale"><svg class="pin-on-card"><use href="#pin"></use></svg><div class="timeline">
+            <div class="time">08:30</div><div class="event"><strong>起床</strong>　简单收拾行李。</div>
+            <div class="time">09:00—09:50</div><div class="event"><strong>早餐 / 咖啡</strong>　竹子林或车公庙附近解决，不跑深圳湾。</div>
+            <div class="time">10:00</div><div class="event"><strong>拿行李、退房</strong>　你和朋友在酒店分开。</div>
+            <div class="time">约 10:20</div><div class="event"><strong>你：竹子林 → 深圳北</strong>　1 号线 → 会展中心换 4 号线；建议 11:05 左右到站。</div>
+            <div class="time">11:41—12:10</div><div class="event"><strong>G382 深圳北 → 广州南</strong>　朋友直接回河源。</div>
+            <div class="time">12:10 以后</div><div class="event"><strong>广州南 / 番禺站 → 白云机场东站（T3）</strong>　按“城际 / 番禺站”指引，坐广州东环城际直达；当天查 12306 / 广东城际。</div>
+            <div class="time">18:15—20:20</div><div class="event"><strong>MU9894 广州 → 成都</strong>　白云 T3 → 天府 T2。</div>
+          </div></article>
+          <div class="scribble reveal">到机场后再吃东西、休息、过安检；时间留得很足。</div>
+        </div>
+        <div class="footer-chrome"><span>返程日 / 城际直达 T3</span><span>15 / 17</span></div>
+      </section>
+
+      <!-- ===========================================
+           16 FINAL CHECKS
+           =========================================== -->
+      <section class="slide" aria-label="出发前最后确认">
+        <div class="top-chrome"><div class="lockup"><svg class="mark"><use href="#mark"></use></svg><span class="cjk-label">最后确认</span></div><div class="meta-tags"><span>3 ITEMS</span><span>BEFORE GO</span></div></div>
+        <div class="slide-content">
+          <h2 class="reveal" data-editable>真正需要临出发再看的三件事</h2>
+          <div class="grid-3">
+            <article class="card reveal"><svg class="pin-on-card"><use href="#pin"></use></svg><div class="day-number">1</div><h3>中秋晚餐</h3><p>9 / 25 当天约 17:00 确认大鸽饭（北京路店）的营业和排号，能线上取号就提前取号。</p><span class="pill red">提前取号</span></article>
+            <article class="card alt reveal"><svg class="pin-on-card pin-right"><use href="#pin-open"></use></svg><div class="day-number">2</div><h3>东部天气</h3><p>9 / 28 早上看深圳东部天气、风浪、道路与实时公交。海边路线以安全和当日交通为先。</p><span class="pill">不硬走</span></article>
+            <article class="card warm reveal"><div class="day-number">3</div><h3>机场城际</h3><p>9 / 29 广州南到 T3 优先走广州东环城际；当天以广东城际 / 12306 实时班次为准。</p><span class="pill">查班次</span></article>
+          </div>
+          <article class="card deep reveal"><div class="grid-3"><div><h3>随身</h3><p>身份证、耳机、充电宝、充电线</p></div><div><h3>海边</h3><p>运动鞋、防晒、帽子、水、防水袋</p></div><div><h3>信息日期</h3><p>路线与营业信息整理于 2026-09-18</p></div></div></article>
+        </div>
+        <div class="footer-chrome"><span>营业时间与交通可能临时调整</span><span>16 / 17</span></div>
+      </section>
+
+      <!-- ===========================================
+           17 CLOSING
+           =========================================== -->
+      <section class="slide ink" aria-label="结束页">
+        <div class="top-chrome"><div class="lockup"><svg class="mark"><use href="#mark"></use></svg><span class="cjk-label">旅途愉快</span></div><div class="meta-tags"><span>SEP 25—29</span><span>2026</span></div></div>
+        <div class="slide-content">
+          <div class="section-layout">
+            <div class="reveal-left"><div class="eyebrow">GUANGZHOU + SHENZHEN</div><h1 data-editable><span class="line">慢慢走</span><br><span class="line">好好吃</span></h1><div class="scribble" data-editable>平安看海，按时回家。</div></div>
+            <article class="card cover-note reveal-scale"><svg class="pin-on-card pin-right"><use href="#pin"></use></svg><div class="stamp">FINAL NOTE</div><h3 data-editable>最好的行程不是全都完成</h3><p data-editable>是两个人都没被赶累，吃到了想吃的，也留下了愿意再来一次的地方。</p><div class="scribble">Have a good trip.</div></article>
+          </div>
+        </div>
+        <div class="footer-chrome"><span>广州 + 深圳 / 5 天 4 晚</span><span>17 / 17</span></div>
+      </section>
+    </main>
+  </div>
+
+  <!-- ===========================================
+       PRESENTATION CONTROLS
+       =========================================== -->
+  <nav class="deck-controls" aria-label="幻灯片导航">
+    <button id="prevBtn" aria-label="上一页">←</button>
+    <span id="pageCount">01 / 17</span>
+    <span class="progress-line" aria-hidden="true"><span class="progress-fill" id="progressFill"></span></span>
+    <button id="nextBtn" aria-label="下一页">→</button>
+  </nav>
+
+  <!-- ===========================================
+       INLINE EDITING CONTROLS
+       =========================================== -->
+  <div class="edit-hotzone" aria-hidden="true"></div>
+  <button class="edit-toggle" id="editToggle" title="编辑模式（E）" aria-label="切换编辑模式">✎</button>
+  <div class="edit-toolbar" id="editToolbar" role="toolbar" aria-label="编辑工具">
+    <button id="saveBtn">保存文字</button>
+    <button id="downloadBtn">下载副本</button>
+    <button id="exitEditBtn">退出编辑</button>
+  </div>
+
+  <script>
+    /* ===========================================
+       SLIDE PRESENTATION CONTROLLER
+       Keyboard, touch and mouse-wheel navigation.
+       =========================================== */
+    class SlidePresentation {
+      constructor() {
+        this.slides = Array.from(document.querySelectorAll('.slide'));
+        this.stage = document.getElementById('deckStage');
+        this.currentSlide = 0;
+        this.wheelLocked = false;
+        this.touchStartX = 0;
+        this.touchStartY = 0;
+        this.setupStageScale();
+        this.setupNavigation();
+        this.restoreHash();
+        this.showSlide(this.currentSlide, false);
+      }
+
+      setupStageScale() {
+        const scale = () => {
+          const portrait = window.matchMedia('(max-aspect-ratio: 3/4)').matches;
+          const stageWidth = portrait ? 1080 : 1920;
+          const stageHeight = portrait ? 1920 : 1080;
+          const factor = Math.min(window.innerWidth / stageWidth, window.innerHeight / stageHeight);
+          const x = (window.innerWidth - stageWidth * factor) / 2;
+          const y = (window.innerHeight - stageHeight * factor) / 2;
+          this.stage.dataset.layout = portrait ? 'portrait' : 'landscape';
+          this.stage.style.transform = `translate(${x}px, ${y}px) scale(${factor})`;
+        };
+        scale();
+        window.addEventListener('resize', scale);
+      }
+
+      setupNavigation() {
+        document.getElementById('prevBtn').addEventListener('click', () => this.previous());
+        document.getElementById('nextBtn').addEventListener('click', () => this.next());
+
+        document.addEventListener('keydown', (event) => {
+          if (event.target && event.target.getAttribute('contenteditable') === 'true') return;
+          if (['ArrowRight', 'ArrowDown', 'PageDown', ' '].includes(event.key)) {
+            event.preventDefault();
+            this.next();
+          }
+          if (['ArrowLeft', 'ArrowUp', 'PageUp'].includes(event.key)) {
+            event.preventDefault();
+            this.previous();
+          }
+          if (event.key === 'Home') this.showSlide(0);
+          if (event.key === 'End') this.showSlide(this.slides.length - 1);
+        });
+
+        window.addEventListener('wheel', (event) => {
+          if (this.wheelLocked || Math.abs(event.deltaY) < 24) return;
+          this.wheelLocked = true;
+          event.deltaY > 0 ? this.next() : this.previous();
+          window.setTimeout(() => { this.wheelLocked = false; }, 520);
+        }, { passive: true });
+
+        window.addEventListener('touchstart', (event) => {
+          const touch = event.changedTouches[0];
+          this.touchStartX = touch.clientX;
+          this.touchStartY = touch.clientY;
+        }, { passive: true });
+
+        window.addEventListener('touchend', (event) => {
+          const touch = event.changedTouches[0];
+          const dx = touch.clientX - this.touchStartX;
+          const dy = touch.clientY - this.touchStartY;
+          if (Math.abs(dx) < 42 || Math.abs(dx) < Math.abs(dy)) return;
+          dx < 0 ? this.next() : this.previous();
+        }, { passive: true });
+
+        window.addEventListener('hashchange', () => {
+          this.restoreHash();
+          this.showSlide(this.currentSlide, false);
+        });
+      }
+
+      restoreHash() {
+        const match = window.location.hash.match(/^#(\d+)$/);
+        if (match) this.currentSlide = Math.min(this.slides.length - 1, Math.max(0, Number(match[1]) - 1));
+      }
+
+      showSlide(index, updateHash = true) {
+        this.currentSlide = Math.min(this.slides.length - 1, Math.max(0, index));
+        this.slides.forEach((slide, slideIndex) => {
+          const active = slideIndex === this.currentSlide;
+          slide.classList.toggle('active', active);
+          slide.classList.toggle('visible', active);
+          slide.setAttribute('aria-hidden', String(!active));
+        });
+        const current = String(this.currentSlide + 1).padStart(2, '0');
+        const total = String(this.slides.length).padStart(2, '0');
+        document.getElementById('pageCount').textContent = `${current} / ${total}`;
+        document.getElementById('progressFill').style.width = `${((this.currentSlide + 1) / this.slides.length) * 100}%`;
+        if (updateHash) history.replaceState(null, '', `#${this.currentSlide + 1}`);
+      }
+
+      next() { this.showSlide(this.currentSlide + 1); }
+      previous() { this.showSlide(this.currentSlide - 1); }
+    }
+
+    /* ===========================================
+       INLINE TEXT EDITOR
+       E toggles editing; Ctrl/Cmd+S stores edits locally.
+       =========================================== */
+    class InlineEditor {
+      constructor() {
+        this.isActive = false;
+        this.storageKey = 'gz-sz-pin-paper-edits-v1';
+        this.editables = Array.from(document.querySelectorAll('[data-editable]'));
+        this.load();
+      }
+
+      toggleEditMode(force) {
+        this.isActive = typeof force === 'boolean' ? force : !this.isActive;
+        this.editables.forEach((element) => element.setAttribute('contenteditable', String(this.isActive)));
+        document.getElementById('editToggle').classList.toggle('active', this.isActive);
+        document.getElementById('editToolbar').classList.toggle('visible', this.isActive);
+        if (!this.isActive) this.save();
+      }
+
+      save() {
+        const payload = this.editables.map((element) => element.innerHTML);
+        localStorage.setItem(this.storageKey, JSON.stringify(payload));
+      }
+
+      load() {
+        try {
+          const payload = JSON.parse(localStorage.getItem(this.storageKey) || 'null');
+          if (!Array.isArray(payload)) return;
+          payload.forEach((html, index) => {
+            if (this.editables[index] && typeof html === 'string') this.editables[index].innerHTML = html;
+          });
+          const outdatedDinnerTitle = this.editables.find((element) =>
+            element.textContent.includes('大鸽饭是主案')
+          );
+          if (outdatedDinnerTitle) {
+            outdatedDinnerTitle.textContent = '中秋晚餐，就吃大鸽饭';
+            this.save();
+          }
+        } catch (error) {
+          console.warn('Could not restore saved edits.', error);
+        }
+      }
+
+      download() {
+        this.save();
+        const clone = document.documentElement.cloneNode(true);
+        clone.querySelectorAll('[contenteditable]').forEach((element) => element.removeAttribute('contenteditable'));
+        const blob = new Blob(['<!DOCTYPE html>\n' + clone.outerHTML], { type: 'text/html;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = '广州深圳5天4晚行程_Pin-and-Paper_编辑版.html';
+        link.click();
+        URL.revokeObjectURL(url);
+      }
+    }
+
+    /* ===========================================
+       PERSISTENT TRIP CHECKLIST
+       Each item is clickable and its checked state stays on this device.
+       =========================================== */
+    class PersistentChecklist {
+      constructor() {
+        this.storageKey = 'gz-sz-trip-checklist-v1';
+        this.inputs = Array.from(document.querySelectorAll('[data-check-id]'));
+        this.load();
+        this.inputs.forEach((input) => input.addEventListener('change', () => this.save()));
+      }
+
+      load() {
+        try {
+          const state = JSON.parse(localStorage.getItem(this.storageKey) || '{}');
+          this.inputs.forEach((input) => {
+            input.checked = Boolean(state[input.dataset.checkId]);
+          });
+        } catch (error) {
+          console.warn('Could not restore checklist state.', error);
+        }
+      }
+
+      save() {
+        const state = Object.fromEntries(
+          this.inputs.map((input) => [input.dataset.checkId, input.checked])
+        );
+        localStorage.setItem(this.storageKey, JSON.stringify(state));
+      }
+    }
+
+    const presentation = new SlidePresentation();
+    const editor = new InlineEditor();
+    const checklist = new PersistentChecklist();
+
+    /* ===========================================
+       EDITOR INTERACTION WITH HOVER GRACE PERIOD
+       =========================================== */
+    const hotzone = document.querySelector('.edit-hotzone');
+    const editToggle = document.getElementById('editToggle');
+    let hideTimeout = null;
+
+    hotzone.addEventListener('mouseenter', () => {
+      clearTimeout(hideTimeout);
+      editToggle.classList.add('show');
+    });
+    hotzone.addEventListener('mouseleave', () => {
+      hideTimeout = setTimeout(() => {
+        if (!editor.isActive) editToggle.classList.remove('show');
+      }, 400);
+    });
+    editToggle.addEventListener('mouseenter', () => clearTimeout(hideTimeout));
+    editToggle.addEventListener('mouseleave', () => {
+      hideTimeout = setTimeout(() => {
+        if (!editor.isActive) editToggle.classList.remove('show');
+      }, 400);
+    });
+    editToggle.addEventListener('click', () => editor.toggleEditMode());
+    hotzone.addEventListener('click', () => editor.toggleEditMode());
+    document.getElementById('saveBtn').addEventListener('click', () => editor.save());
+    document.getElementById('downloadBtn').addEventListener('click', () => editor.download());
+    document.getElementById('exitEditBtn').addEventListener('click', () => editor.toggleEditMode(false));
+
+    document.addEventListener('keydown', (event) => {
+      const editingText = event.target && event.target.getAttribute('contenteditable') === 'true';
+      if ((event.key === 'e' || event.key === 'E') && !editingText) editor.toggleEditMode();
+      if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 's') {
+        event.preventDefault();
+        editor.save();
+      }
+    });
+  </script>
+</body>
+</html>
